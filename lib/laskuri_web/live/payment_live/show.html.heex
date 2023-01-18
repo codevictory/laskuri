@@ -1,0 +1,86 @@
+<h1>Show Payment</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.payment_show_path(@socket, :show, @payment)}>
+    <.live_component
+      module={LaskuriWeb.PaymentLive.FormComponent}
+      id={@payment.id}
+      title={@page_title}
+      action={@live_action}
+      payment={@payment}
+      return_to={Routes.payment_show_path(@socket, :show, @payment)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Year:</strong>
+    <%= @payment.year %>
+  </li>
+
+  <li>
+    <strong>Month:</strong>
+    <%= @payment.month %>
+  </li>
+
+  <li>
+    <strong>Electricity:</strong>
+    <%= @payment.electricity %>
+  </li>
+
+  <li>
+    <strong>Transfer:</strong>
+    <%= @payment.transfer %>
+  </li>
+
+  <li>
+    <strong>Bank transactions:</strong>
+    <%= @payment.bank_transactions %>
+  </li>
+
+  <li>
+    <strong>Water:</strong>
+    <%= @payment.water %>
+  </li>
+
+  <li>
+    <strong>Waste disposal:</strong>
+    <%= @payment.waste_disposal %>
+  </li>
+
+  <li>
+    <strong>Heating:</strong>
+    <%= @payment.heating %>
+  </li>
+
+  <li>
+    <strong>Property tax:</strong>
+    <%= @payment.property_tax %>
+  </li>
+
+  <li>
+    <strong>Accounting:</strong>
+    <%= @payment.accounting %>
+  </li>
+
+  <li>
+    <strong>Fire insurance:</strong>
+    <%= @payment.fire_insurance %>
+  </li>
+
+  <li>
+    <strong>Interest:</strong>
+    <%= @payment.interest %>
+  </li>
+
+  <li>
+    <strong>Misc expenses:</strong>
+    <%= @payment.misc_expenses %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.payment_show_path(@socket, :edit, @payment), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.payment_index_path(@socket, :index) %></span>

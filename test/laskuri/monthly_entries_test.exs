@@ -70,4 +70,82 @@ defmodule Laskuri.MonthlyEntriesTest do
       assert %Ecto.Changeset{} = MonthlyEntries.change_meter_value(meter_value)
     end
   end
+
+  describe "payments" do
+    alias Laskuri.MonthlyEntries.Payment
+
+    import Laskuri.MonthlyEntriesFixtures
+
+    @invalid_attrs %{accounting: nil, bank_transactions: nil, electricity: nil, fire_insurance: nil, heating: nil, interest: nil, misc_expenses: nil, month: nil, property_tax: nil, transfer: nil, waste_disposal: nil, water: nil, year: nil}
+
+    test "list_payments/0 returns all payments" do
+      payment = payment_fixture()
+      assert MonthlyEntries.list_payments() == [payment]
+    end
+
+    test "get_payment!/1 returns the payment with given id" do
+      payment = payment_fixture()
+      assert MonthlyEntries.get_payment!(payment.id) == payment
+    end
+
+    test "create_payment/1 with valid data creates a payment" do
+      valid_attrs = %{accounting: "120.5", bank_transactions: "120.5", electricity: "120.5", fire_insurance: "120.5", heating: "120.5", interest: "120.5", misc_expenses: "120.5", month: 42, property_tax: "120.5", transfer: "120.5", waste_disposal: "120.5", water: "120.5", year: 42}
+
+      assert {:ok, %Payment{} = payment} = MonthlyEntries.create_payment(valid_attrs)
+      assert payment.accounting == Decimal.new("120.5")
+      assert payment.bank_transactions == Decimal.new("120.5")
+      assert payment.electricity == Decimal.new("120.5")
+      assert payment.fire_insurance == Decimal.new("120.5")
+      assert payment.heating == Decimal.new("120.5")
+      assert payment.interest == Decimal.new("120.5")
+      assert payment.misc_expenses == Decimal.new("120.5")
+      assert payment.month == 42
+      assert payment.property_tax == Decimal.new("120.5")
+      assert payment.transfer == Decimal.new("120.5")
+      assert payment.waste_disposal == Decimal.new("120.5")
+      assert payment.water == Decimal.new("120.5")
+      assert payment.year == 42
+    end
+
+    test "create_payment/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = MonthlyEntries.create_payment(@invalid_attrs)
+    end
+
+    test "update_payment/2 with valid data updates the payment" do
+      payment = payment_fixture()
+      update_attrs = %{accounting: "456.7", bank_transactions: "456.7", electricity: "456.7", fire_insurance: "456.7", heating: "456.7", interest: "456.7", misc_expenses: "456.7", month: 43, property_tax: "456.7", transfer: "456.7", waste_disposal: "456.7", water: "456.7", year: 43}
+
+      assert {:ok, %Payment{} = payment} = MonthlyEntries.update_payment(payment, update_attrs)
+      assert payment.accounting == Decimal.new("456.7")
+      assert payment.bank_transactions == Decimal.new("456.7")
+      assert payment.electricity == Decimal.new("456.7")
+      assert payment.fire_insurance == Decimal.new("456.7")
+      assert payment.heating == Decimal.new("456.7")
+      assert payment.interest == Decimal.new("456.7")
+      assert payment.misc_expenses == Decimal.new("456.7")
+      assert payment.month == 43
+      assert payment.property_tax == Decimal.new("456.7")
+      assert payment.transfer == Decimal.new("456.7")
+      assert payment.waste_disposal == Decimal.new("456.7")
+      assert payment.water == Decimal.new("456.7")
+      assert payment.year == 43
+    end
+
+    test "update_payment/2 with invalid data returns error changeset" do
+      payment = payment_fixture()
+      assert {:error, %Ecto.Changeset{}} = MonthlyEntries.update_payment(payment, @invalid_attrs)
+      assert payment == MonthlyEntries.get_payment!(payment.id)
+    end
+
+    test "delete_payment/1 deletes the payment" do
+      payment = payment_fixture()
+      assert {:ok, %Payment{}} = MonthlyEntries.delete_payment(payment)
+      assert_raise Ecto.NoResultsError, fn -> MonthlyEntries.get_payment!(payment.id) end
+    end
+
+    test "change_payment/1 returns a payment changeset" do
+      payment = payment_fixture()
+      assert %Ecto.Changeset{} = MonthlyEntries.change_payment(payment)
+    end
+  end
 end

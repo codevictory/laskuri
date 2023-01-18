@@ -25,6 +25,13 @@ defmodule LaskuriWeb.Router do
 
     live "/meter_values/:id", MeterValueLive.Show, :show
     live "/meter_values/:id/show/edit", MeterValueLive.Show, :edit
+
+    live "/payments", PaymentLive.Index, :index
+    live "/payments/new", PaymentLive.Index, :new
+    live "/payments/:id/edit", PaymentLive.Index, :edit
+
+    live "/payments/:id", PaymentLive.Show, :show
+    live "/payments/:id/show/edit", PaymentLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

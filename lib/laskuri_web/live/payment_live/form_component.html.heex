@@ -1,0 +1,68 @@
+<div>
+  <h2><%= @title %></h2>
+
+  <.form
+    let={f}
+    for={@changeset}
+    id="payment-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save">
+  
+    <%= label f, :year %>
+    <%= number_input f, :year %>
+    <%= error_tag f, :year %>
+  
+    <%= label f, :month %>
+    <%= number_input f, :month %>
+    <%= error_tag f, :month %>
+  
+    <%= label f, :electricity %>
+    <%= number_input f, :electricity, step: "any" %>
+    <%= error_tag f, :electricity %>
+  
+    <%= label f, :transfer %>
+    <%= number_input f, :transfer, step: "any" %>
+    <%= error_tag f, :transfer %>
+  
+    <%= label f, :bank_transactions %>
+    <%= number_input f, :bank_transactions, step: "any" %>
+    <%= error_tag f, :bank_transactions %>
+  
+    <%= label f, :water %>
+    <%= number_input f, :water, step: "any" %>
+    <%= error_tag f, :water %>
+  
+    <%= label f, :waste_disposal %>
+    <%= number_input f, :waste_disposal, step: "any" %>
+    <%= error_tag f, :waste_disposal %>
+  
+    <%= label f, :heating %>
+    <%= number_input f, :heating, step: "any" %>
+    <%= error_tag f, :heating %>
+  
+    <%= label f, :property_tax %>
+    <%= number_input f, :property_tax, step: "any" %>
+    <%= error_tag f, :property_tax %>
+  
+    <%= label f, :accounting %>
+    <%= number_input f, :accounting, step: "any" %>
+    <%= error_tag f, :accounting %>
+  
+    <%= label f, :fire_insurance %>
+    <%= number_input f, :fire_insurance, step: "any" %>
+    <%= error_tag f, :fire_insurance %>
+  
+    <%= label f, :interest %>
+    <%= number_input f, :interest, step: "any" %>
+    <%= error_tag f, :interest %>
+  
+    <%= label f, :misc_expenses %>
+    <%= number_input f, :misc_expenses, step: "any" %>
+    <%= error_tag f, :misc_expenses %>
+  
+    <div>
+      <%= submit "Save", phx_disable_with: "Saving..." %>
+    </div>
+  </.form>
+</div>

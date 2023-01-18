@@ -1,0 +1,63 @@
+<h1>Listing Payments</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.payment_index_path(@socket, :index)}>
+    <.live_component
+      module={LaskuriWeb.PaymentLive.FormComponent}
+      id={@payment.id || :new}
+      title={@page_title}
+      action={@live_action}
+      payment={@payment}
+      return_to={Routes.payment_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Year</th>
+      <th>Month</th>
+      <th>Electricity</th>
+      <th>Transfer</th>
+      <th>Bank transactions</th>
+      <th>Water</th>
+      <th>Waste disposal</th>
+      <th>Heating</th>
+      <th>Property tax</th>
+      <th>Accounting</th>
+      <th>Fire insurance</th>
+      <th>Interest</th>
+      <th>Misc expenses</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="payments">
+    <%= for payment <- @payments do %>
+      <tr id={"payment-#{payment.id}"}>
+        <td><%= payment.year %></td>
+        <td><%= payment.month %></td>
+        <td><%= payment.electricity %></td>
+        <td><%= payment.transfer %></td>
+        <td><%= payment.bank_transactions %></td>
+        <td><%= payment.water %></td>
+        <td><%= payment.waste_disposal %></td>
+        <td><%= payment.heating %></td>
+        <td><%= payment.property_tax %></td>
+        <td><%= payment.accounting %></td>
+        <td><%= payment.fire_insurance %></td>
+        <td><%= payment.interest %></td>
+        <td><%= payment.misc_expenses %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.payment_show_path(@socket, :show, payment) %></span>
+          <span><%= live_patch "Edit", to: Routes.payment_index_path(@socket, :edit, payment) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: payment.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Payment", to: Routes.payment_index_path(@socket, :new) %></span>
