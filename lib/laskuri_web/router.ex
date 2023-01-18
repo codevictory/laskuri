@@ -18,6 +18,13 @@ defmodule LaskuriWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+
+    live "/meter_values", MeterValueLive.Index, :index
+    live "/meter_values/new", MeterValueLive.Index, :new
+    live "/meter_values/:id/edit", MeterValueLive.Index, :edit
+
+    live "/meter_values/:id", MeterValueLive.Show, :show
+    live "/meter_values/:id/show/edit", MeterValueLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

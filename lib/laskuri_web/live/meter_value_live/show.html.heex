@@ -1,0 +1,61 @@
+<h1>Show Meter value</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.meter_value_show_path(@socket, :show, @meter_value)}>
+    <.live_component
+      module={LaskuriWeb.MeterValueLive.FormComponent}
+      id={@meter_value.id}
+      title={@page_title}
+      action={@live_action}
+      meter_value={@meter_value}
+      return_to={Routes.meter_value_show_path(@socket, :show, @meter_value)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Year:</strong>
+    <%= @meter_value.year %>
+  </li>
+
+  <li>
+    <strong>Month:</strong>
+    <%= @meter_value.month %>
+  </li>
+
+  <li>
+    <strong>Upstairs:</strong>
+    <%= @meter_value.upstairs %>
+  </li>
+
+  <li>
+    <strong>Kitchen:</strong>
+    <%= @meter_value.kitchen %>
+  </li>
+
+  <li>
+    <strong>Shop:</strong>
+    <%= @meter_value.shop %>
+  </li>
+
+  <li>
+    <strong>Cellar:</strong>
+    <%= @meter_value.cellar %>
+  </li>
+
+  <li>
+    <strong>Sauna:</strong>
+    <%= @meter_value.sauna %>
+  </li>
+
+  <li>
+    <strong>Day:</strong>
+    <%= @meter_value.day %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.meter_value_show_path(@socket, :edit, @meter_value), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.meter_value_index_path(@socket, :index) %></span>
