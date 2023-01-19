@@ -45,7 +45,7 @@
         <td>
           <span><%= live_redirect "Näytä", to: Routes.meter_value_show_path(@socket, :show, meter_value) %></span>
           <span><%= live_patch "Muokkaa", to: Routes.meter_value_index_path(@socket, :edit, meter_value) %></span>
-          <span><%= link "Poista", to: "#", phx_click: "delete", phx_value_id: meter_value.id, data: [confirm: "Are you sure?"] %></span>
+          <span><%= link "Poista", to: "#", phx_click: "delete", phx_value_id: meter_value.id, data: [confirm: "Oletko varma?"] %></span>
         </td>
       </tr>
     <% end %>
