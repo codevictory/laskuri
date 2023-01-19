@@ -2,6 +2,7 @@
 @import './milligram.css';
 @import './phoenix.css';
 @import './header.css';
+@import './form_modal.css';
 
 /* Alerts and form errors used by phx.new */
 .alert {

@@ -1,5 +1,5 @@
 <div>
-  <h2><%= @title %></h2>
+  <h2>Sähkölukemat</h2>
 
   <.form
     let={f}
@@ -9,40 +9,40 @@
     phx-change="validate"
     phx-submit="save">
   
-    <%= label f, :year %>
+    <%= label f, :year, "Vuosi" %>
     <%= number_input f, :year %>
     <%= error_tag f, :year %>
   
-    <%= label f, :month %>
+    <%= label f, :month, "Kuukausi" %>
     <%= number_input f, :month %>
     <%= error_tag f, :month %>
   
-    <%= label f, :upstairs %>
-    <%= number_input f, :upstairs, step: "any" %>
-    <%= error_tag f, :upstairs %>
-  
-    <%= label f, :kitchen %>
-    <%= number_input f, :kitchen, step: "any" %>
-    <%= error_tag f, :kitchen %>
-  
-    <%= label f, :shop %>
-    <%= number_input f, :shop, step: "any" %>
-    <%= error_tag f, :shop %>
-  
-    <%= label f, :cellar %>
-    <%= number_input f, :cellar, step: "any" %>
-    <%= error_tag f, :cellar %>
-  
-    <%= label f, :sauna %>
-    <%= number_input f, :sauna, step: "any" %>
-    <%= error_tag f, :sauna %>
-  
-    <%= label f, :day %>
+    <%= label f, :day, "Päivä" %>
     <%= number_input f, :day %>
     <%= error_tag f, :day %>
   
+    <%= label f, :upstairs, "Yläkerta" %>
+    <%= number_input f, :upstairs, step: "any" %>
+    <%= error_tag f, :upstairs %>
+  
+    <%= label f, :kitchen, "Keittiö" %>
+    <%= number_input f, :kitchen, step: "any" %>
+    <%= error_tag f, :kitchen %>
+  
+    <%= label f, :shop, "Kauppa" %>
+    <%= number_input f, :shop, step: "any" %>
+    <%= error_tag f, :shop %>
+  
+    <%= label f, :cellar, "Kellari" %>
+    <%= number_input f, :cellar, step: "any" %>
+    <%= error_tag f, :cellar %>
+  
+    <%= label f, :sauna, "Sauna" %>
+    <%= number_input f, :sauna, step: "any" %>
+    <%= error_tag f, :sauna %>
+  
     <div>
-      <%= submit "Save", phx_disable_with: "Saving..." %>
+      <%= submit "Lisää", phx_disable_with: "Saving..." %>
     </div>
   </.form>
 </div>

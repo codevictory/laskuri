@@ -32,7 +32,7 @@ defmodule LaskuriWeb.MeterValueLive.FormComponent do
       {:ok, _meter_value} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Meter value updated successfully")
+         |> put_flash(:info, "Mittarilukema lisätty onnistuneesti")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -45,7 +45,7 @@ defmodule LaskuriWeb.MeterValueLive.FormComponent do
       {:ok, _meter_value} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Meter value created successfully")
+         |> put_flash(:info, "Mittarilukema lisätty onnistuneesti")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

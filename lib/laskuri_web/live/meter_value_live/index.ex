@@ -21,9 +21,11 @@ defmodule LaskuriWeb.MeterValueLive.Index do
   end
 
   defp apply_action(socket, :new, _params) do
+    today = DateTime.utc_now()
+
     socket
     |> assign(:page_title, "New Meter value")
-    |> assign(:meter_value, %MeterValue{})
+    |> assign(:meter_value, %MeterValue{year: today.year, month: today.month, day: today.day})
   end
 
   defp apply_action(socket, :index, _params) do
