@@ -1,11 +1,11 @@
-<h1>Listing Payments</h1>
+<h1><%= @page_title %></h1>
 
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.payment_index_path(@socket, :index)}>
     <.live_component
       module={LaskuriWeb.PaymentLive.FormComponent}
       id={@payment.id || :new}
-      title={@page_title}
+      title={@modal_title}
       action={@live_action}
       payment={@payment}
       return_to={Routes.payment_index_path(@socket, :index)}
@@ -13,22 +13,24 @@
   </.modal>
 <% end %>
 
+<span><%= live_patch "Lisää", to: Routes.payment_index_path(@socket, :new) %></span>
+
 <table>
   <thead>
     <tr>
-      <th>Year</th>
-      <th>Month</th>
-      <th>Electricity</th>
-      <th>Transfer</th>
-      <th>Bank transactions</th>
-      <th>Water</th>
-      <th>Waste disposal</th>
-      <th>Heating</th>
-      <th>Property tax</th>
-      <th>Accounting</th>
-      <th>Fire insurance</th>
-      <th>Interest</th>
-      <th>Misc expenses</th>
+      <th>Vuosi</th>
+      <th>Kuukausi</th>
+      <th>Sähkö</th>
+      <th>Siirto</th>
+      <th>Rahaliikenne</th>
+      <th>Vesi</th>
+      <th>Jätehuolto</th>
+      <th>Lämmitys</th>
+      <th>Kiinteistövero</th>
+      <th>Kirjanpito</th>
+      <th>Palovakuutus</th>
+      <th>Korot</th>
+      <th>Lisäkulut</th>
 
       <th></th>
     </tr>
@@ -51,13 +53,11 @@
         <td><%= payment.misc_expenses %></td>
 
         <td>
-          <span><%= live_redirect "Show", to: Routes.payment_show_path(@socket, :show, payment) %></span>
-          <span><%= live_patch "Edit", to: Routes.payment_index_path(@socket, :edit, payment) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: payment.id, data: [confirm: "Are you sure?"] %></span>
+          <span><%= live_redirect "Näytä", to: Routes.payment_show_path(@socket, :show, payment) %></span>
+          <span><%= live_patch "Muokkaa", to: Routes.payment_index_path(@socket, :edit, payment) %></span>
+          <span><%= link "Poista", to: "#", phx_click: "delete", phx_value_id: payment.id, data: [confirm: "Oletko varma?"] %></span>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<span><%= live_patch "New Payment", to: Routes.payment_index_path(@socket, :new) %></span>

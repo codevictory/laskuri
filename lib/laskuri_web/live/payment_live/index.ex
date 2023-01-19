@@ -16,19 +16,21 @@ defmodule LaskuriWeb.PaymentLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Payment")
+    |> assign(:modal_title, "Muokkaa maksuja")
     |> assign(:payment, MonthlyEntries.get_payment!(id))
   end
 
   defp apply_action(socket, :new, _params) do
+    today = DateTime.utc_now()
+
     socket
-    |> assign(:page_title, "New Payment")
-    |> assign(:payment, %Payment{})
+    |> assign(:modal_title, "Lisää maksuja")
+    |> assign(:payment, %Payment{year: today.year, month: today.month})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Payments")
+    |> assign(:page_title, "Maksetut laskut")
     |> assign(:payment, nil)
   end
 

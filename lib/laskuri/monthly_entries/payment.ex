@@ -23,7 +23,21 @@ defmodule Laskuri.MonthlyEntries.Payment do
   @doc false
   def changeset(payment, attrs) do
     payment
-    |> cast(attrs, [:year, :month, :electricity, :transfer, :bank_transactions, :water, :waste_disposal, :heating, :property_tax, :accounting, :fire_insurance, :interest, :misc_expenses])
-    |> validate_required([:year, :month, :electricity, :transfer, :bank_transactions, :water, :waste_disposal, :heating, :property_tax, :accounting, :fire_insurance, :interest, :misc_expenses])
+    |> cast(attrs, [
+      :year,
+      :month,
+      :electricity,
+      :transfer,
+      :bank_transactions,
+      :water,
+      :waste_disposal,
+      :heating,
+      :property_tax,
+      :accounting,
+      :fire_insurance,
+      :interest,
+      :misc_expenses
+    ])
+    |> validate_required([:year, :month])
   end
 end

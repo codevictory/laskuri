@@ -32,7 +32,7 @@ defmodule LaskuriWeb.PaymentLive.FormComponent do
       {:ok, _payment} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Payment updated successfully")
+         |> put_flash(:info, "Maksut muokattu onnistuneesti")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -45,7 +45,7 @@ defmodule LaskuriWeb.PaymentLive.FormComponent do
       {:ok, _payment} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Payment created successfully")
+         |> put_flash(:info, "Maksut lisätty onnistuneesti")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
