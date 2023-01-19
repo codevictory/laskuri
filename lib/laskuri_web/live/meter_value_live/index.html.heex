@@ -1,11 +1,11 @@
-<h1>Mittari lukemat</h1>
+<h1><%= @page_title %></h1>
 
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.meter_value_index_path(@socket, :index)}>
     <.live_component
       module={LaskuriWeb.MeterValueLive.FormComponent}
       id={@meter_value.id || :new}
-      title={@page_title}
+      title={@modal_title}
       action={@live_action}
       meter_value={@meter_value}
       return_to={Routes.meter_value_index_path(@socket, :index)}

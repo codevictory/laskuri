@@ -16,7 +16,7 @@ defmodule LaskuriWeb.MeterValueLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Meter value")
+    |> assign(:modal_title, "Muokkaa sähkölukemia")
     |> assign(:meter_value, MonthlyEntries.get_meter_value!(id))
   end
 
@@ -24,13 +24,13 @@ defmodule LaskuriWeb.MeterValueLive.Index do
     today = DateTime.utc_now()
 
     socket
-    |> assign(:page_title, "New Meter value")
+    |> assign(:modal_title, "Lisää sähkölukemat")
     |> assign(:meter_value, %MeterValue{year: today.year, month: today.month, day: today.day})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Meter values")
+    |> assign(:page_title, "Mittari lukemat")
     |> assign(:meter_value, nil)
   end
 
