@@ -9,17 +9,9 @@
     phx-change="validate"
     phx-submit="save">
   
-    <%= label f, :year, "Vuosi" %>
-    <%= number_input f, :year %>
-    <%= error_tag f, :year %>
-  
-    <%= label f, :month, "Kuukausi" %>
-    <%= number_input f, :month %>
-    <%= error_tag f, :month %>
-  
-    <%= label f, :day, "Päivä" %>
-    <%= number_input f, :day %>
-    <%= error_tag f, :day %>
+    <%= label f, :checked, "Tarkastettu" %>
+    <%= date_input f, :checked %>
+    <%= error_tag f, :checked %>
   
     <%= label f, :upstairs, "Yläkerta" %>
     <%= number_input f, :upstairs, step: "any" %>

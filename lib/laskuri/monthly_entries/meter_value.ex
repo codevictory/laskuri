@@ -3,14 +3,12 @@ defmodule Laskuri.MonthlyEntries.MeterValue do
   import Ecto.Changeset
 
   schema "meter_values" do
+    field :checked, :date
     field :cellar, :decimal
-    field :day, :integer
     field :kitchen, :decimal
-    field :month, :integer
     field :sauna, :decimal
     field :shop, :decimal
     field :upstairs, :decimal
-    field :year, :integer
 
     timestamps()
   end
@@ -18,7 +16,7 @@ defmodule Laskuri.MonthlyEntries.MeterValue do
   @doc false
   def changeset(meter_value, attrs) do
     meter_value
-    |> cast(attrs, [:year, :month, :upstairs, :kitchen, :shop, :cellar, :sauna, :day])
-    |> validate_required([:year, :month, :upstairs, :kitchen, :shop, :cellar, :sauna, :day])
+    |> cast(attrs, [:checked, :upstairs, :kitchen, :shop, :cellar, :sauna])
+    |> validate_required([:checked, :upstairs, :kitchen, :shop, :cellar, :sauna])
   end
 end

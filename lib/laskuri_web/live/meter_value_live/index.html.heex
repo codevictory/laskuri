@@ -18,9 +18,7 @@
 <table>
   <thead>
     <tr>
-      <th>Vuosi</th>
-      <th>Kuukausi</th>
-      <th>Päivä</th>
+      <th>Tarkistettu</th>
       <th>Yläkerta</th>
       <th>Keittiö</th>
       <th>Kauppa</th>
@@ -33,9 +31,7 @@
   <tbody id="meter_values">
     <%= for meter_value <- @meter_values do %>
       <tr id={"meter_value-#{meter_value.id}"}>
-        <td><%= meter_value.year %></td>
-        <td><%= meter_value.month %></td>
-        <td><%= meter_value.day %></td>
+        <td><%= meter_value.checked %></td>
         <td><%= meter_value.upstairs %></td>
         <td><%= meter_value.kitchen %></td>
         <td><%= meter_value.shop %></td>
