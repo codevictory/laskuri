@@ -1,4 +1,5 @@
 defmodule LaskuriWeb.Router do
+  import Plug.BasicAuth
   use LaskuriWeb, :router
 
   pipeline :browser do
@@ -8,6 +9,7 @@ defmodule LaskuriWeb.Router do
     plug :put_root_layout, {LaskuriWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :basic_auth, Application.compile_env(:laskuri, :basic_auth)
   end
 
   pipeline :api do
