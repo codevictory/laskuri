@@ -19,13 +19,7 @@ config :laskuri, Laskuri.Repo,
 config :laskuri, LaskuriWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [port: 4000],
-  https: [
-    port: 4001,
-    cipher_suite: :strong,
-    keyfile: "priv/cert/selfsigned_key.pem",
-    certfile: "priv/cert/selfsigned.pem"
-  ],
+  http: [ip: {127, 0, 0, 1}, port: 4000],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
@@ -45,6 +39,19 @@ config :laskuri, LaskuriWeb.Endpoint,
 #
 # Note that this task requires Erlang/OTP 20 or later.
 # Run `mix help phx.gen.cert` for more information.
+#
+# The `http:` config above can be replaced with:
+#
+#     https: [
+#       port: 4001,
+#       cipher_suite: :strong,
+#       keyfile: "priv/cert/selfsigned_key.pem",
+#       certfile: "priv/cert/selfsigned.pem"
+#     ],
+#
+# If desired, both `http:` and `https:` keys can be
+# configured to run both http and https servers on
+# different ports.
 
 # Watch static and templates for browser reloading.
 config :laskuri, LaskuriWeb.Endpoint,
