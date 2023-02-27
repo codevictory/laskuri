@@ -9,7 +9,7 @@ defmodule LaskuriWeb.Router do
     plug :put_root_layout, {LaskuriWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug :basic_auth, Application.compile_env(:laskuri, :basic_auth)
+    plug :auth
   end
 
   pipeline :api do
@@ -68,5 +68,11 @@ defmodule LaskuriWeb.Router do
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
+  end
+
+  defp auth(conn, _opts) do
+    username = System.fetch_env!("BA_USERNAME")
+    password = System.fetch_env!("BA_PASSWORD")
+    Plug.BasicAuth.basic_auth(conn, username: username, password: password)
   end
 end

@@ -47,19 +47,6 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-# Basic auth
-if config_env() == :prod do
-  config :laskuri, :basic_auth,
-    username: System.get_env("BA_USERNAME"),
-    password: System.get_env("BA_PASSWORD")
-end
-
-if config_env() == :dev do
-  config :laskuri, :basic_auth,
-    username: "dev",
-    password: "dev"
-end
-
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
