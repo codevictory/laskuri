@@ -29,6 +29,10 @@
     <%= number_input f, :bank_transactions, step: "any" %>
     <%= error_tag f, :bank_transactions %>
   
+    <%= label f, :waste_water, "Jätevesi" %>
+    <%= number_input f, :waste_water, step: "any" %>
+    <%= error_tag f, :waste_water %>
+  
     <%= label f, :water, "Vesi" %>
     <%= number_input f, :water, step: "any" %>
     <%= error_tag f, :water %>

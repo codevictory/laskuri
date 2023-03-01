@@ -16,6 +16,7 @@ defmodule Laskuri.MonthlyEntries.Payment do
     field :waste_disposal, :decimal
     field :water, :decimal
     field :year, :integer
+    field :waste_water, :decimal
 
     timestamps()
   end
@@ -29,6 +30,7 @@ defmodule Laskuri.MonthlyEntries.Payment do
       :electricity,
       :transfer,
       :bank_transactions,
+      :waste_water,
       :water,
       :waste_disposal,
       :heating,
