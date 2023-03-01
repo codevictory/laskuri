@@ -12,4 +12,4 @@ import Config
 config :laskuri, LaskuriWeb.Endpoint, cache_static_manifest: "priv/static/cache_manifest.json"
 config :logger, level: :info
 config :laskuri, LaskuriWeb.Endpoint, url: [host: "laskuri.gigalixirapp.com", port: 443]
-config :laskuri, LaskuriWeb.Endpoint, force_ssl: [hsts: true]
+config :laskuri, LaskuriWeb.Endpoint, force_ssl: [rewrite_on: [:x_forwarded_proto]]
