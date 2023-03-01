@@ -1,5 +1,4 @@
 defmodule LaskuriWeb.Router do
-  import Plug.BasicAuth
   use LaskuriWeb, :router
 
   pipeline :browser do
@@ -71,8 +70,20 @@ defmodule LaskuriWeb.Router do
   end
 
   defp auth(conn, _opts) do
-    username = System.fetch_env!("BA_USERNAME")
-    password = System.fetch_env!("BA_PASSWORD")
+    username =
+      if Mix.env() == :prod do
+        System.fetch_env!("BA_USERNAME")
+      else
+        "dev"
+      end
+
+    password =
+      if Mix.env() == :prod do
+        System.fetch_env!("BA_PASSWORD")
+      else
+        "dev"
+      end
+
     Plug.BasicAuth.basic_auth(conn, username: username, password: password)
   end
 end
