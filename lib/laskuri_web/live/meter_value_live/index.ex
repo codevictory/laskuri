@@ -17,20 +17,20 @@ defmodule LaskuriWeb.MeterValueLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:modal_title, "Muokkaa sähkölukemia")
-    |> assign(:page_title, "Mittari lukemat")
+    |> assign(:page_title, "Mittarilukemat")
     |> assign(:meter_value, MonthlyEntries.get_meter_value!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:modal_title, "Lisää sähkölukemat")
-    |> assign(:page_title, "Mittari lukemat")
+    |> assign(:page_title, "Mittarilukemat")
     |> assign(:meter_value, %MeterValue{checked: DateTime.utc_now()})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Mittari lukemat")
+    |> assign(:page_title, "Mittarilukemat")
     |> assign(:meter_value, nil)
   end
 

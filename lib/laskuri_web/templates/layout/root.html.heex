@@ -11,17 +11,15 @@
   </head>
   <body>
     <header>
-      <section class="header_container">
+      <section class="header-container">
         <nav>
           <ul>
-            <li><a href="/meter_values">Mittari lukemat</a></li>
-            <li><a href="/payments">Maksetut laskut</a></li>
-            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-              <li><%= link "Metriikka monitori", to: Routes.live_dashboard_path(@conn, :home) %></li>
-            <% end %>
+            <li><a href="/metrics" class="header-link">Kululaskut</a></li>
+            <li><a href="/meter_values" class="header-link">Mittarilukemat</a></li>
+            <li><a href="/payments" class="header-link">Maksetut laskut</a></li>
           </ul>
         </nav>
-        <div class="header_title">
+        <div class="header-title">
           <a href="/" class="phx-logo">
             KOLK laskuri
           </a>

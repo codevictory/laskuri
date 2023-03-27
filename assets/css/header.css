@@ -1,4 +1,4 @@
-.header_container {
+.header-container {
   margin: 0 auto;
   max-width: 80rem;
   padding: 0 2rem;
@@ -6,12 +6,16 @@
   width: 100%;
 }
 
-.header_title > a {
-  color: #010101;
+.header-title > a {
+  color: #faebcc;
   font-weight: bolder;
   font-size: 5rem;
 }
 
-.header_title > a:hover {
+.header-title > a:hover {
   color: #4d4d4d;
+}
+
+.header-link {
+  color: #662fff;
 }

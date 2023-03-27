@@ -1,8 +1,13 @@
 @import './shared.css';
 @import './milligram.css';
-@import './phoenix.css';
 @import './header.css';
 @import './form_modal.css';
+
+body {
+  background-color: #3c3347;
+  color: #faebcc;
+  height: 100%;
+}
 
 /* Alerts and form errors used by phx.new */
 .alert {
@@ -66,15 +71,15 @@ larger .alert p {
 }
 
 .phx-modal-content {
-  background-color: #fefefe;
+  background-color: #929292;
   margin: 15vh auto;
   padding: 20px;
-  border: 1px solid #888;
+  border: 1px solid #353535;
   width: 80%;
 }
 
 .phx-modal-close {
-  color: #aaa;
+  color: #000000;
   float: right;
   font-size: 28px;
   font-weight: bold;
@@ -82,7 +87,7 @@ larger .alert p {
 
 .phx-modal-close:hover,
 .phx-modal-close:focus {
-  color: black;
+  color: rgb(255, 255, 255);
   text-decoration: none;
   cursor: pointer;
 }
