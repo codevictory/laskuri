@@ -109,8 +109,6 @@ defmodule Laskuri.MonthlyEntries do
 
   def get_monthly_values(month) do
     Repo.one!(from m in MeterValue, where: m.checked == ^month)
-
-    #    |> where([m], m.checked == ^month)
   end
 
   alias Laskuri.MonthlyEntries.Payment
@@ -207,5 +205,14 @@ defmodule Laskuri.MonthlyEntries do
   """
   def change_payment(%Payment{} = payment, attrs \\ %{}) do
     Payment.changeset(payment, attrs)
+  end
+
+  def get_monthly_payments(month) do
+    parsed_date = Date.from_iso8601!(month)
+
+    Repo.one(
+      from p in Payment,
+        where: p.year == ^parsed_date.year and p.month == ^parsed_date.month
+    )
   end
 end

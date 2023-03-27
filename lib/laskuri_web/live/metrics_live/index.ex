@@ -24,5 +24,6 @@ defmodule LaskuriWeb.MetricsLive.Index do
     |> assign(:page_title, month)
     |> assign(:months, MonthlyEntries.get_submitted_months())
     |> assign(:meter_value, MonthlyEntries.get_monthly_values(month))
+    |> assign(:payment, MonthlyEntries.get_monthly_payments(month))
   end
 end

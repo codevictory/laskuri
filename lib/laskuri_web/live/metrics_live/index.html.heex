@@ -30,4 +30,50 @@
 </tbody>
 
 </table>
+
+<%= if @payment == :nil do %>
+    <p>Laskutietoja puuttuu vielä tältä kuukaudelta.</p>
+<%= else %>
+    <table>
+
+    <thead>
+        <tr>
+            <th>Vuosi</th>
+            <th>Kuukausi</th>
+            <th>Sähkö</th>
+            <th>Siirto</th>
+            <th>Rahaliikenne</th>
+            <th>Jätevesi</th>
+            <th>Vesi</th>
+            <th>Jätehuolto</th>
+            <th>Lämmitys</th>
+            <th>Kiinteistövero</th>
+            <th>Kirjanpito</th>
+            <th>Palovakuutus</th>
+            <th>Korot</th>
+            <th>Lisäkulut</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td><%= @payment.year %></td>
+            <td><%= @payment.month %></td>
+            <td><%= @payment.electricity %></td>
+            <td><%= @payment.transfer %></td>
+            <td><%= @payment.bank_transactions %></td>
+            <td><%= @payment.waste_water %></td>
+            <td><%= @payment.water %></td>
+            <td><%= @payment.waste_disposal %></td>
+            <td><%= @payment.heating %></td>
+            <td><%= @payment.property_tax %></td>
+            <td><%= @payment.accounting %></td>
+            <td><%= @payment.fire_insurance %></td>
+            <td><%= @payment.interest %></td>
+            <td><%= @payment.misc_expenses %></td>
+        </tr>
+    </tbody>
+
+    </table>
+<%= end %>
 <% end %>
