@@ -20,6 +20,9 @@ defmodule LaskuriWeb.Router do
 
     get "/", PageController, :index
 
+    live "/metrics", MetricsLive.Index, :index
+    live "/metrics/:month", MetricsLive.Index, :display
+
     live "/meter_values", MeterValueLive.Index, :index
     live "/meter_values/new", MeterValueLive.Index, :new
     live "/meter_values/:id/edit", MeterValueLive.Index, :edit

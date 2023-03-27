@@ -102,6 +102,17 @@ defmodule Laskuri.MonthlyEntries do
     MeterValue.changeset(meter_value, attrs)
   end
 
+  def get_submitted_months() do
+    from(m in MeterValue, select: m.checked())
+    |> Repo.all()
+  end
+
+  def get_monthly_values(month) do
+    Repo.one!(from m in MeterValue, where: m.checked == ^month)
+
+    #    |> where([m], m.checked == ^month)
+  end
+
   alias Laskuri.MonthlyEntries.Payment
 
   @doc """

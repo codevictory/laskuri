@@ -1,0 +1,33 @@
+<h1>Kululaskut</h1>
+<%= for month <- @months do %>
+    <%= button month, to: "/metrics/#{month}", method: :get %>
+<% end %>
+<%= if @live_action == :display do %>
+<table>
+
+<thead>
+    <tr>
+        <th>Tarkistettu</th>
+        <th>Yläkerta</th>
+        <th>Keittiö</th>
+        <th>Kauppa</th>
+        <th>Kellari</th>
+        <th>Sauna</th>
+    </tr>
+</thead>
+
+<tbody>
+
+    <tr>
+        <td><%= @meter_value.checked %></td>
+        <td><%= @meter_value.upstairs %></td>
+        <td><%= @meter_value.kitchen %></td>
+        <td><%= @meter_value.shop %></td>
+        <td><%= @meter_value.cellar %></td>
+        <td><%= @meter_value.sauna %></td>
+    </tr>
+
+</tbody>
+
+</table>
+<% end %>
