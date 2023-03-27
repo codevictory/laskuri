@@ -33,8 +33,8 @@ button,
 input[type='button'],
 input[type='reset'],
 input[type='submit'] {
-  background-color: #0069d9;
-  border: 0.1rem solid #0069d9;
+  background-color: #5d34f2;
+  border: 0.1rem solid #5d34f2;
   border-radius: 0.4rem;
   color: #fff;
   cursor: pointer;
@@ -196,6 +196,7 @@ input[type='week'],
 input:not([type]),
 textarea,
 select {
+  color: #fff;
   -webkit-appearance: none;
   background-color: transparent;
   border: 0.1rem solid #d1d1d1;
