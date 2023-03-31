@@ -108,7 +108,7 @@ defmodule Laskuri.MonthlyEntries do
   end
 
   def get_monthly_values(month) do
-    Repo.one!(from m in MeterValue, where: m.checked == ^month)
+    Repo.one(from m in MeterValue, where: m.checked == ^month)
   end
 
   alias Laskuri.MonthlyEntries.Payment
@@ -218,55 +218,75 @@ defmodule Laskuri.MonthlyEntries do
 
   def get_monthly_fees(month) do
     new = get_monthly_values(month)
-    prev = get_monthly_values(parse_previous_month(month))
-    payments = get_monthly_payments(month)
 
-    upstairs = Decimal.sub(new.upstairs, prev.upstairs)
-    kitchen = Decimal.sub(new.kitchen, prev.kitchen)
-    shop = Decimal.sub(new.shop, prev.shop)
-    cellar = Decimal.sub(new.cellar, prev.cellar)
-    sauna = Decimal.sub(new.sauna, prev.sauna)
+    prev =
+      case get_monthly_values(parse_previous_month(month)) do
+        nil ->
+          Map.new([
+            {:upstairs, Decimal.new(0)},
+            {:kitchen, Decimal.new(0)},
+            {:cellar, Decimal.new(0)},
+            {:sauna, Decimal.new(0)},
+            {:shop, Decimal.new(0)},
+            {:checked, Date.new(1, 1, 1)}
+          ])
 
-    sum =
-      Decimal.add(upstairs, kitchen)
-      |> Decimal.add(shop)
-      |> Decimal.add(shop)
-      |> Decimal.add(cellar)
-      |> Decimal.add(sauna)
+        %MeterValue{} = values ->
+          values
+      end
 
-    # percentages
-    viveta_p = Decimal.add(upstairs, sauna) |> Decimal.div(sum)
+    case get_monthly_payments(month) do
+      nil ->
+        %{viveta: 0, osuusvoima: 0}
 
-    osuusvoima_p = Decimal.add(kitchen, shop) |> Decimal.div(sum)
-    shared_p = Decimal.div(cellar, sum)
+      %Payment{} = payments ->
+        upstairs = Decimal.sub(new.upstairs, prev.upstairs)
+        kitchen = Decimal.sub(new.kitchen, prev.kitchen)
+        shop = Decimal.sub(new.shop, prev.shop)
+        cellar = Decimal.sub(new.cellar, prev.cellar)
+        sauna = Decimal.sub(new.sauna, prev.sauna)
 
-    energy_price =
-      Decimal.add(payments.electricity, payments.transfer)
-      |> Decimal.sub(payments.electricity_monthly_fee)
-      |> Decimal.sub(payments.transfer_monthly_fee)
+        sum =
+          Decimal.add(upstairs, kitchen)
+          |> Decimal.add(shop)
+          |> Decimal.add(shop)
+          |> Decimal.add(cellar)
+          |> Decimal.add(sauna)
 
-    # fees according to the usage
-    viveta_f = Decimal.mult(viveta_p, energy_price)
-    osuusvoima_f = Decimal.mult(osuusvoima_p, energy_price)
-    shared_f = Decimal.mult(shared_p, energy_price)
+        # percentages
+        viveta_p = Decimal.add(upstairs, sauna) |> Decimal.div(sum)
 
-    # fees split evenly
-    split_evenly =
-      Decimal.add(payments.bank_transactions, payments.waste_water)
-      |> Decimal.add(payments.water)
-      |> Decimal.add(payments.waste_disposal)
-      |> Decimal.add(payments.heating)
-      |> Decimal.add(payments.property_tax)
-      |> Decimal.add(payments.accounting)
-      |> Decimal.add(payments.fire_insurance)
-      |> Decimal.add(payments.interest)
-      |> Decimal.add(payments.misc_expenses)
-      |> Decimal.add(shared_f)
+        osuusvoima_p = Decimal.add(kitchen, shop) |> Decimal.div(sum)
+        shared_p = Decimal.div(cellar, sum)
 
-    viveta_final = Decimal.add(viveta_f, split_evenly) |> Decimal.div(2)
-    osuusvoima_final = Decimal.add(osuusvoima_f, split_evenly) |> Decimal.div(2)
+        energy_price =
+          Decimal.add(payments.electricity, payments.transfer)
+          |> Decimal.sub(payments.electricity_monthly_fee)
+          |> Decimal.sub(payments.transfer_monthly_fee)
 
-    %{viveta: viveta_final, osuusvoima: osuusvoima_final}
+        # fees according to the usage
+        viveta_f = Decimal.mult(viveta_p, energy_price)
+        osuusvoima_f = Decimal.mult(osuusvoima_p, energy_price)
+        shared_f = Decimal.mult(shared_p, energy_price)
+
+        # fees split evenly
+        split_evenly =
+          Decimal.add(payments.bank_transactions, payments.waste_water)
+          |> Decimal.add(payments.water)
+          |> Decimal.add(payments.waste_disposal)
+          |> Decimal.add(payments.heating)
+          |> Decimal.add(payments.property_tax)
+          |> Decimal.add(payments.accounting)
+          |> Decimal.add(payments.fire_insurance)
+          |> Decimal.add(payments.interest)
+          |> Decimal.add(payments.misc_expenses)
+          |> Decimal.add(shared_f)
+
+        viveta_final = Decimal.add(viveta_f, split_evenly) |> Decimal.div(2)
+        osuusvoima_final = Decimal.add(osuusvoima_f, split_evenly) |> Decimal.div(2)
+
+        %{viveta: viveta_final, osuusvoima: osuusvoima_final}
+    end
   end
 
   defp parse_previous_month(month) do
