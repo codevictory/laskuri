@@ -3,77 +3,94 @@
     <%= button month, to: "/metrics/#{month}", method: :get %>
 <% end %>
 <%= if @live_action == :display do %>
-<table>
-
-<thead>
-    <tr>
-        <th>Tarkistettu</th>
-        <th>Yläkerta</th>
-        <th>Keittiö</th>
-        <th>Kauppa</th>
-        <th>Kellari</th>
-        <th>Sauna</th>
-    </tr>
-</thead>
-
-<tbody>
-
-    <tr>
-        <td><%= @meter_value.checked %></td>
-        <td><%= @meter_value.upstairs %></td>
-        <td><%= @meter_value.kitchen %></td>
-        <td><%= @meter_value.shop %></td>
-        <td><%= @meter_value.cellar %></td>
-        <td><%= @meter_value.sauna %></td>
-    </tr>
-
-</tbody>
-
-</table>
-
-<%= if @payment == :nil do %>
-    <p>Laskutietoja puuttuu vielä tältä kuukaudelta.</p>
-<%= else %>
+    <h2>Mittarilukemat</h2>
     <table>
+        <thead>
+            <tr>
+                <th>Tarkistettu</th>
+                <th>Yläkerta</th>
+                <th>Keittiö</th>
+                <th>Kauppa</th>
+                <th>Kellari</th>
+                <th>Sauna</th>
+            </tr>
+        </thead>
 
-    <thead>
-        <tr>
-            <th>Vuosi</th>
-            <th>Kuukausi</th>
-            <th>Sähkö</th>
-            <th>Siirto</th>
-            <th>Rahaliikenne</th>
-            <th>Jätevesi</th>
-            <th>Vesi</th>
-            <th>Jätehuolto</th>
-            <th>Lämmitys</th>
-            <th>Kiinteistövero</th>
-            <th>Kirjanpito</th>
-            <th>Palovakuutus</th>
-            <th>Korot</th>
-            <th>Lisäkulut</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        <tr>
-            <td><%= @payment.year %></td>
-            <td><%= @payment.month %></td>
-            <td><%= @payment.electricity %></td>
-            <td><%= @payment.transfer %></td>
-            <td><%= @payment.bank_transactions %></td>
-            <td><%= @payment.waste_water %></td>
-            <td><%= @payment.water %></td>
-            <td><%= @payment.waste_disposal %></td>
-            <td><%= @payment.heating %></td>
-            <td><%= @payment.property_tax %></td>
-            <td><%= @payment.accounting %></td>
-            <td><%= @payment.fire_insurance %></td>
-            <td><%= @payment.interest %></td>
-            <td><%= @payment.misc_expenses %></td>
-        </tr>
-    </tbody>
-
+        <tbody>
+            <tr>
+                <td><%= @meter_value.checked %></td>
+                <td><%= @meter_value.upstairs %></td>
+                <td><%= @meter_value.kitchen %></td>
+                <td><%= @meter_value.shop %></td>
+                <td><%= @meter_value.cellar %></td>
+                <td><%= @meter_value.sauna %></td>
+            </tr>
+        </tbody>
     </table>
-<%= end %>
+
+    <%= if @payment == :nil do %>
+        <p>Laskutietorivi puuttuu tältä kuukaudelta.</p>
+    <% else %>
+        <h2>Kuukauden aikana maksetut laskut</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Vuosi</th>
+                    <th>Kuukausi</th>
+                    <th>Sähkö</th>
+                    <th>Siirto</th>
+                    <th>Rahaliikenne</th>
+                    <th>Jätevesi</th>
+                    <th>Vesi</th>
+                    <th>Jätehuolto</th>
+                    <th>Lämmitys</th>
+                    <th>Kiinteistövero</th>
+                    <th>Kirjanpito</th>
+                    <th>Palovakuutus</th>
+                    <th>Korot</th>
+                    <th>Lisäkulut</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td><%= @payment.year %></td>
+                    <td><%= @payment.month %></td>
+                    <td><%= @payment.electricity %></td>
+                    <td><%= @payment.transfer %></td>
+                    <td><%= @payment.bank_transactions %></td>
+                    <td><%= @payment.waste_water %></td>
+                    <td><%= @payment.water %></td>
+                    <td><%= @payment.waste_disposal %></td>
+                    <td><%= @payment.heating %></td>
+                    <td><%= @payment.property_tax %></td>
+                    <td><%= @payment.accounting %></td>
+                    <td><%= @payment.fire_insurance %></td>
+                    <td><%= @payment.interest %></td>
+                    <td><%= @payment.misc_expenses %></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Vastikkeet</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Osakas</th>
+                    <th>Yhtiövastike</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>Viveta</td>
+                    <td><%= @fees.viveta %></td>
+                </tr>
+                <tr>
+                    <td>Osuusvoima</td>
+                    <td><%= @fees.osuusvoima %></td>
+                </tr>
+            </tbody>
+        </table>
+    <% end %>
 <% end %>
