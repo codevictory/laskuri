@@ -23,7 +23,7 @@ defmodule LaskuriWeb.MetricsLive.Index do
     socket
     |> assign(:page_title, month)
     |> assign(:months, MonthlyEntries.get_submitted_months())
-    |> assign(:meter_value, MonthlyEntries.get_monthly_values(month))
+    |> assign(:meter_value, MonthlyEntries.get_monthly_usage(month))
     |> assign(:payment, MonthlyEntries.get_monthly_payments(month))
     |> assign(:fees, MonthlyEntries.get_monthly_fees(month))
   end

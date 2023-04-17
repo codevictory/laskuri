@@ -111,6 +111,21 @@ defmodule Laskuri.MonthlyEntries do
     Repo.one(from m in MeterValue, where: m.checked == ^month)
   end
 
+  def get_monthly_usage(month) do
+    end_of_month = get_monthly_values(parse_next_month(month))
+
+    start_of_month = get_monthly_values(month)
+
+    Map.new([
+      {:upstairs, Decimal.sub(end_of_month.upstairs, start_of_month.upstairs)},
+      {:kitchen, Decimal.sub(end_of_month.kitchen, start_of_month.kitchen)},
+      {:cellar, Decimal.sub(end_of_month.cellar, start_of_month.cellar)},
+      {:sauna, Decimal.sub(end_of_month.sauna, start_of_month.sauna)},
+      {:shop, Decimal.sub(end_of_month.shop, start_of_month.shop)},
+      {:checked, end_of_month.checked}
+    ])
+  end
+
   alias Laskuri.MonthlyEntries.Payment
 
   @doc """
@@ -217,47 +232,23 @@ defmodule Laskuri.MonthlyEntries do
   end
 
   def get_monthly_fees(month) do
-    new = get_monthly_values(month)
-
-    prev =
-      case get_monthly_values(parse_previous_month(month)) do
-        nil ->
-          Map.new([
-            {:upstairs, Decimal.new(0)},
-            {:kitchen, Decimal.new(0)},
-            {:cellar, Decimal.new(0)},
-            {:sauna, Decimal.new(0)},
-            {:shop, Decimal.new(0)},
-            {:checked, Date.new(1, 1, 1)}
-          ])
-
-        %MeterValue{} = values ->
-          values
-      end
-
     case get_monthly_payments(month) do
       nil ->
-        %{viveta: 0, osuusvoima: 0}
+        %{viveta: Decimal.new(0), osuusvoima: Decimal.new(0)}
 
       %Payment{} = payments ->
-        upstairs = Decimal.sub(new.upstairs, prev.upstairs)
-        kitchen = Decimal.sub(new.kitchen, prev.kitchen)
-        shop = Decimal.sub(new.shop, prev.shop)
-        cellar = Decimal.sub(new.cellar, prev.cellar)
-        sauna = Decimal.sub(new.sauna, prev.sauna)
+        usage = get_monthly_usage(month)
 
         sum =
-          Decimal.add(upstairs, kitchen)
-          |> Decimal.add(shop)
-          |> Decimal.add(shop)
-          |> Decimal.add(cellar)
-          |> Decimal.add(sauna)
+          Decimal.add(usage.upstairs, usage.kitchen)
+          |> Decimal.add(usage.shop)
+          |> Decimal.add(usage.cellar)
+          |> Decimal.add(usage.sauna)
 
         # percentages
-        viveta_p = Decimal.add(upstairs, sauna) |> Decimal.div(sum)
-
-        osuusvoima_p = Decimal.add(kitchen, shop) |> Decimal.div(sum)
-        shared_p = Decimal.div(cellar, sum)
+        viveta_percentage = Decimal.add(usage.upstairs, usage.sauna) |> Decimal.div(sum)
+        osuusvoima_percentage = Decimal.add(usage.kitchen, usage.shop) |> Decimal.div(sum)
+        shared_percentage = Decimal.div(usage.cellar, sum)
 
         energy_price =
           Decimal.add(payments.electricity, payments.transfer)
@@ -265,13 +256,15 @@ defmodule Laskuri.MonthlyEntries do
           |> Decimal.sub(payments.transfer_monthly_fee)
 
         # fees according to the usage
-        viveta_f = Decimal.mult(viveta_p, energy_price)
-        osuusvoima_f = Decimal.mult(osuusvoima_p, energy_price)
-        shared_f = Decimal.mult(shared_p, energy_price)
+        viveta_energy = Decimal.mult(viveta_percentage, energy_price)
+        osuusvoima_energy = Decimal.mult(osuusvoima_percentage, energy_price)
+        shared_energy = Decimal.mult(shared_percentage, energy_price)
 
         # fees split evenly
         split_evenly =
           Decimal.add(payments.bank_transactions, payments.waste_water)
+          |> Decimal.add(payments.electricity_monthly_fee)
+          |> Decimal.add(payments.transfer_monthly_fee)
           |> Decimal.add(payments.water)
           |> Decimal.add(payments.waste_disposal)
           |> Decimal.add(payments.heating)
@@ -280,22 +273,22 @@ defmodule Laskuri.MonthlyEntries do
           |> Decimal.add(payments.fire_insurance)
           |> Decimal.add(payments.interest)
           |> Decimal.add(payments.misc_expenses)
-          |> Decimal.add(shared_f)
+          |> Decimal.add(shared_energy)
 
-        viveta_final = Decimal.add(viveta_f, split_evenly) |> Decimal.div(2)
-        osuusvoima_final = Decimal.add(osuusvoima_f, split_evenly) |> Decimal.div(2)
+        viveta_final = Decimal.div(split_evenly, 2) |> Decimal.add(viveta_energy)
+        osuusvoima_final = Decimal.div(split_evenly, 2) |> Decimal.add(osuusvoima_energy)
 
-        %{viveta: viveta_final, osuusvoima: osuusvoima_final}
+        %{viveta: Decimal.round(viveta_final, 2), osuusvoima: Decimal.round(osuusvoima_final, 2)}
     end
   end
 
-  defp parse_previous_month(month) do
+  defp parse_next_month(month) do
     parsed_date = Date.from_iso8601!(month)
 
-    if parsed_date.month == 1 do
-      Date.to_iso8601(%{parsed_date | year: parsed_date.year - 1, month: 12})
+    if parsed_date.month == 12 do
+      Date.to_iso8601(%{parsed_date | year: parsed_date.year + 1, month: 1})
     else
-      Date.to_iso8601(%{parsed_date | month: parsed_date.month - 1})
+      Date.to_iso8601(%{parsed_date | month: parsed_date.month + 1})
     end
   end
 end
