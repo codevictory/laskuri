@@ -104,7 +104,9 @@ defmodule Laskuri.MonthlyEntries do
 
   def get_submitted_months() do
     from(m in MeterValue, select: m.checked())
+    |> order_by(desc: :checked)
     |> Repo.all()
+    |> List.delete_at(0)
   end
 
   def get_monthly_values(month) do
